@@ -44,11 +44,12 @@ func main() {
 	//Prints out field names and values
 	//fmt.Printf("%+v\n", jim)
 
+	jim.updateName("Jimmy")
 	jim.print()
 }
 
-func (p person) updateName(firstName string) {
-	p.firstName = firstName
+func (p *person) updateName(firstName string) {
+	(*p).firstName = firstName
 }
 
 func (p person) print() {
