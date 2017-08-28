@@ -11,20 +11,27 @@ func main() {
 		"http://facebook.com",
 		"http://golang.org",
 		"http://amazon.com",
+		"http://stackoverflow.com",
 	}
+
+	ch := make(chan string)
 
 	for _, link := range links {
-		checkLink(link)
+		go checkLink(link, ch)
 	}
+
+	fmt.Println(<-ch)
 }
 
-func checkLink(link string) {
+func checkLink(link string, ch chan string) {
 	_, err := http.Get(link)
 
 	if err != nil {
 		fmt.Println(link, "might be down!")
+		ch <- "Might be down"
 		return
 	}
 
 	fmt.Println(link, "is up!")
+	ch <- "It's up!"
 }
